@@ -23,9 +23,11 @@ const resolve = {
   alias: {
     utils: `${root}/utils`,
     ducks: `${root}/ducks`,
+    epics: `${root}/epics`,
     pages: `${root}/pages`,
-    components: `${root}/components`,
-    routes: `${root}/routes`
+    store: `${root}/store`,
+    routes: `${root}/routes`,
+    components: `${root}/components`
   }
 };
 
@@ -45,7 +47,8 @@ const moduleConf = {
       use: {
         loader: "babel-loader",
         options: {
-          presets: ["@babel/preset-env", "@babel/preset-react"]
+          presets: ["@babel/preset-env", "@babel/preset-react"],
+          plugins: ["@babel/plugin-transform-runtime"]
         }
       }
     }

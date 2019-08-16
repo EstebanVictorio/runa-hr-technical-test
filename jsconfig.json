@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "utils/*": ["./src/utils/*"],
+      "ducks/*": ["./src/ducks/*"],
+      "epics/*": ["./src/epics/*"],
+      "pages/*": ["./src/pages/*"],
+      "store/*": ["./src/store/*"],
+      "components/*": ["./src/components/*"],
+      "routes/*": ["./src/routes.js"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "public"]
+}
