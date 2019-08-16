@@ -24,13 +24,15 @@ const resolve = {
     utils: `${root}/utils`,
     ducks: `${root}/ducks`,
     pages: `${root}/pages`,
-    components: `${root}/components`
+    components: `${root}/components`,
+    routes: `${root}/routes`
   }
 };
 
 const devServer = {
   contentBase: path.resolve(__dirname, "public"),
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 3000,
+  historyApiFallback: true
 };
 
 const alias = {};
