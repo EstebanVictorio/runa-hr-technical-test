@@ -11,7 +11,7 @@ const enemies = (state = initialState, action) => {
   switch (action.type) {
     case SET_ENEMIES:
       return {
-        list: [...state.list, ...action.payload]
+        list: [...action.payload]
       };
     default:
       return state;

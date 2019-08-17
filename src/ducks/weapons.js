@@ -11,7 +11,7 @@ const weapons = (state = initialState, action) => {
   switch (action.type) {
     case SET_WEAPONS:
       return {
-        list: [...state.list, ...action.payload]
+        list: [...action.payload]
       };
     default:
       return state;
