@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Gift from "components/icons/gift";
 import ShoppingCart from "components/icons/shopping-cart";
+import Heart from "components/icons/heart";
 
 const StyledNavigationBar = styled.nav`
   top: 0;
   width: 100vw;
-  height: 60px;
   display: flex;
+  height: 100px;
   position: sticky;
   position: relative;
   box-sizing: border-box;
@@ -57,6 +58,11 @@ const NavigationBar = () => (
       <li className="navbar__list-item">
         <Link className="navbar__link" to="/">
           <Gift />
+        </Link>
+      </li>
+      <li className="navbar__list-item">
+        <Link className="navbar__link" to="/">
+          <Heart />
         </Link>
       </li>
     </ul>

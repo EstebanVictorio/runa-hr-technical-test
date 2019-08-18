@@ -43,6 +43,18 @@ html, body {
   text-align: center;
 }
 
+.svg-icon {
+  width: 48px;
+  height: 48px;
+}
+
+
+.svg-icon path {
+  width: 100%;
+  height: 100%;
+  fill: whitesmoke;
+}
+
 /* Make clicks pass-through */
 #nprogress {
   pointer-events: none;

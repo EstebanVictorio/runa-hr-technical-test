@@ -11,6 +11,7 @@
       "pages/*": ["./src/pages/*"],
       "store/*": ["./src/store/*"],
       "routes/*": ["./src/routes.js"],
+      "services/*": ["./src/services/*"],
       "components/*": ["./src/components/*"]
     }
   },

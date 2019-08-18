@@ -26,6 +26,7 @@ const resolve = {
     pages: `${root}/pages`,
     store: `${root}/store`,
     routes: `${root}/routes`,
+    services: `${root}/services`,
     components: `${root}/components`
   }
 };

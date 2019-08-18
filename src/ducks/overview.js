@@ -9,18 +9,20 @@ const FETCH_FEATURED_GAMES = "FETCH_FEATURED_GAMES";
 const FETCH_LATEST_RELEASES = "FETCH_LATEST_RELEASES";
 
 const initialState = {
-  featuredGamesList: [],
-  latestReleasesList: []
+  featuredGamesList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+  latestReleasesList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
 };
 
 const overview = (state = initialState, action) => {
   switch (action.type) {
     case SET_FEATURED_GAMES:
       return {
+        ...state,
         featuredGamesList: action.payload
       };
-    case SET_FEATURED_GAMES:
+    case SET_LATEST_RELEASES:
       return {
+        ...state,
         latestReleasesList: action.payload
       };
     default:

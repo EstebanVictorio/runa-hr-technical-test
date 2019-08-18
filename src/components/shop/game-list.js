@@ -4,12 +4,15 @@ import GameCard from "components/shop/game-card";
 
 const StyledGameListContainer = styled.div`
   padding: 24px;
+  box-sizing: border-box;
 `;
 
 const StyledGameList = styled.ul`
   margin: 0;
-  padding: 0;
+  width: 100%;
   display: flex;
+  padding: 10px 0;
+  overflow-x: auto;
   list-style-type: none;
 `;
 

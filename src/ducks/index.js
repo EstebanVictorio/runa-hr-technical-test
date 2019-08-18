@@ -5,7 +5,13 @@ import {
   fetchLatestReleasesEpic
 } from "./overview";
 
-const reducers = { overview };
-const epics = combineEpics(fetchFeaturedGamesEpic, fetchLatestReleasesEpic);
+import { searchResults, fetchSearchEpic } from "./search-results";
+
+const reducers = { overview, searchResults };
+const epics = combineEpics(
+  fetchFeaturedGamesEpic,
+  fetchLatestReleasesEpic,
+  fetchSearchEpic
+);
 
 export { epics, reducers };
