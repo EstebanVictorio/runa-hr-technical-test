@@ -1,13 +1,14 @@
+import { Fragment } from "react";
 import GlobalStyles from "utils/global-styles";
-import DashboardPanels from "components/dashboard-panels";
+import NavigationBar from "components/navigation-bar";
+
+// import DashboardPanels from "components/dashboard-panels";
 const Layout = ({ children }) => (
-  <main className="main-content">
+  <Fragment>
     <GlobalStyles />
-    <h1 className="welcome-title">Welcome to Halo Museum!</h1>
-    <h2 className="call-to-action">Check the pages below to browse:</h2>
-    {children}
-    <DashboardPanels />
-  </main>
+    <NavigationBar />
+    <main className="main-content">{children}</main>
+  </Fragment>
 );
 
 export default Layout;

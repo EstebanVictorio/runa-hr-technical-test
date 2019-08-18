@@ -1,6 +1,11 @@
-import { enemies, fetchEnemiesEpic } from "./enemies";
-import { weapons, fetchWeaponsEpic } from "./weapons";
 import { combineEpics } from "redux-observable";
-const reducers = { enemies, weapons };
-const epics = combineEpics(fetchEnemiesEpic, fetchWeaponsEpic);
+import {
+  overview,
+  fetchFeaturedGamesEpic,
+  fetchLatestReleasesEpic
+} from "./overview";
+
+const reducers = { overview };
+const epics = combineEpics(fetchFeaturedGamesEpic, fetchLatestReleasesEpic);
+
 export { epics, reducers };

@@ -1,6 +1,12 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+
+@font-face {
+  font-family: RSC;
+  src: url("/NanumGothic-Regular.ttf") format("truetype");
+}
+
 :root {
   --dark: #20232a;
   --primary-accent: skyblue;
@@ -14,6 +20,7 @@ html, body {
   font-size: 24px;
   box-sizing: border-box;
   color: var(--primary-accent);
+  font-family: RSC;
 }
 
 
@@ -23,6 +30,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   background-color: var(--dark);
 }
 

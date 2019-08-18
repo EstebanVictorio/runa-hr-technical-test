@@ -28,6 +28,12 @@ const options = {
   }
 };
 
+const lotrOptions = {
+  headers: {
+    Authorization: `Bearer ${key}`
+  }
+};
+
 const enableCORS = (req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "*");
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -36,6 +42,18 @@ const enableCORS = (req, res, next) => {
 };
 
 app.use(enableCORS);
+
+app.get("/characters", async (req, res) => {
+  const response = await fetch(
+    " https://the-one-api.herokuapp.com/v1/character",
+    lotrOptions
+  );
+  const data = await response.json();
+  res.json({
+    data
+  });
+});
+
 app.get("/weapons", async (req, res) => {
   const response = await fetch(
     "https://www.haloapi.com/metadata/h5/metadata/weapons",

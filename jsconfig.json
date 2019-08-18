@@ -10,8 +10,8 @@
       "epics/*": ["./src/epics/*"],
       "pages/*": ["./src/pages/*"],
       "store/*": ["./src/store/*"],
-      "components/*": ["./src/components/*"],
-      "routes/*": ["./src/routes.js"]
+      "routes/*": ["./src/routes.js"],
+      "components/*": ["./src/components/*"]
     }
   },
   "exclude": ["node_modules", "dist", "public"]

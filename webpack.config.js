@@ -1,16 +1,15 @@
 const path = require("path");
-const webpack = require("webpack");
 const dotenv = require("dotenv");
+const webpack = require("webpack");
 const HWP = require("html-webpack-plugin");
 
 const root = path.resolve(__dirname, "src");
-
 const plugins = [
   new HWP({
     inject: "body",
     filename: "index.html",
     template: "./index.ejs",
-    title: "Halo Slim Museum"
+    title: "Shopping Cart"
   }),
   new webpack.ProvidePlugin({
     React: "react",
@@ -19,7 +18,7 @@ const plugins = [
 ];
 
 const resolve = {
-  extensions: [".js"],
+  extensions: [".js", ".svg"],
   alias: {
     utils: `${root}/utils`,
     ducks: `${root}/ducks`,
