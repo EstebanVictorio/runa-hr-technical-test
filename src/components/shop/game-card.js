@@ -11,8 +11,10 @@ const StyledGameCard = styled.div`
   margin: 0 15px;
   border-radius: 4px;
   box-sizing: border-box;
-  border: 1px solid skyblue;
   transition: transform 0.2s;
+  border: 1px solid transparent;
+  box-shadow: 12px 12px 20px 1px black;
+
   &:hover {
     transform: scale(1.05);
   }
@@ -29,6 +31,10 @@ const StyledGameCard = styled.div`
   .card__img {
     width: 100%;
     height: 100%;
+  }
+
+  .card__img--normal {
+    filter: invert(0);
   }
 
   .card__img--filtered {
@@ -134,10 +140,25 @@ const StyledGameCard = styled.div`
 `;
 
 const GameCard = ({ id, name, img }) => {
+  const [filteredImgClassName, setFilteredImgClassName] = useState(
+    "card__img card__img--filtered"
+  );
+
+  const setFilteredImgClassNameEffect = () => {
+    setFilteredImgClassName(
+      img ? "card__img card__img--normal" : "card__img card__img--filtered"
+    );
+  };
+
+  useEffect(setFilteredImgClassNameEffect, [img]);
+  console.log(filteredImgClassName);
   return (
     <StyledGameCard>
       <figure className="card__img-container">
-        <img className="card__img" src={img || "/icons/cloudsync.gif"} />
+        <img
+          className={filteredImgClassName}
+          src={img || "/icons/cloudsync.gif"}
+        />
       </figure>
       <div className="card__body">
         <p className="card__title">{name}</p>
@@ -145,7 +166,7 @@ const GameCard = ({ id, name, img }) => {
           <figure className="card__plain-icon-container">
             <PriceTag classes="card__plain-icon" />
           </figure>
-          <p className="card__price-tag">59.99</p>
+          <p className="card__price-tag">{name ? 59.99 : "---"}</p>
         </div>
         <form className="card__form">
           <label className="card__form-label">
