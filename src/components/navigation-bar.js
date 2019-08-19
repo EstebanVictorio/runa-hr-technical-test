@@ -10,7 +10,6 @@ const StyledNavigationBar = styled.nav`
   display: flex;
   height: 100px;
   position: sticky;
-  position: relative;
   box-sizing: border-box;
   background-color: darkslategray;
 

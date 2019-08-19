@@ -1,11 +1,12 @@
 import NProgress from "nprogress";
+import { setFeaturedGames, setLatestReleases } from "ducks/overview";
+import { setSearchResults } from "ducks/search-results";
 import {
   OK,
   API_URL,
   FEATURED_GAMES_API_URL,
   LATEST_RELEASES_API_URL
 } from "utils/constants";
-import { setFeaturedGames, setLatestReleases } from "ducks/overview";
 
 const fetchFeaturedGames = async action => {
   NProgress.start();
@@ -24,10 +25,13 @@ const fetchLatestReleases = async action => {
 };
 
 const fetchSearch = async action => {
+  // NProgress.start();
   const response = await fetch(
-    `${API_URL}/page_size=5&search=${encodeURI(action.payload)}`
+    `${API_URL}?page_size=5&search=${encodeURI(action.payload)}`
   );
   const { results } = await response.json();
+  // NProgress.done();
+  return setSearchResults(results);
 };
 
 export { fetchSearch, fetchFeaturedGames, fetchLatestReleases };

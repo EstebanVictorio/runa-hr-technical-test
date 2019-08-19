@@ -1,10 +1,10 @@
 import ReactSvg from "react-svg";
 import { SVG_ICONS_PATH } from "utils/constants";
-const PriceTag = ({ classes }) => (
+const Search = ({ classes }) => (
   <ReactSvg
     className={`svg-icon ${classes}`}
-    src={`${SVG_ICONS_PATH}/tag.svg`}
+    src={`${SVG_ICONS_PATH}/search.svg`}
   />
 );
 
-export default PriceTag;
+export default Search;

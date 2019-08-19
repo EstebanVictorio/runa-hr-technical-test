@@ -1,14 +1,19 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
+import Search from "components/shop/search";
 import GameList from "components/shop/game-list";
-import SearchInput from "components/shop/search-input";
+import { fetchSearch, cleanSearchResults } from "ducks/search-results";
 import { fetchFeaturedGames, fetchLatestReleases } from "ducks/overview";
 
 const Home = ({
+  results,
+  searching,
+  fetchLatest,
+  cleanSearch,
+  fetchFeatured,
   featuredGames,
   latestReleases,
-  fetchFeatured,
-  fetchLatest
+  fetchNewSearch
 }) => {
   const loadFeaturesGamesEffect = () => {
     fetchFeatured();
@@ -22,21 +27,30 @@ const Home = ({
 
   return (
     <section className="content-section">
-      <SearchInput />
+      <Search
+        results={results}
+        searching={searching}
+        cleanSearch={cleanSearch}
+        fetchNewSearch={fetchNewSearch}
+      />
       <GameList title="Featured Games" list={featuredGames} />
       <GameList title="Latest Releases" list={latestReleases} />
     </section>
   );
 };
 
-const mapStateToProps = ({ overview }) => ({
+const mapStateToProps = ({ overview, searchResults }) => ({
+  results: searchResults.results,
+  searching: searchResults.searching,
   featuredGames: overview.featuredGamesList,
   latestReleases: overview.latestReleasesList
 });
 
 const mapDispatchToProps = {
-  fetchFeatured: fetchFeaturedGames,
-  fetchLatest: fetchLatestReleases
+  fetchNewSearch: fetchSearch,
+  cleanSearch: cleanSearchResults,
+  fetchLatest: fetchLatestReleases,
+  fetchFeatured: fetchFeaturedGames
 };
 
 export default connect(

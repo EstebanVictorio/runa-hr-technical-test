@@ -1,22 +1,40 @@
 import styled from "styled-components";
+import Searching from "components/shop/searching";
+import NoResults from "components/shop/no-results";
+import SearchResult from "components/shop/search-result";
 
 const StyledSearchResults = styled.div`
-  top: 74px;
+  top: 55px;
   z-index: 4;
   right: 58px;
-  width: 380px;
-  height: 600px;
+  width: 360px;
   display: flex;
+  overflow-y: auto;
   position: absolute;
-  flex-direction: column;
-  transition: opacity 0.5s;
   border-radius: 5px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   background-color: darkslategrey;
-  opacity: ${({ visible }) => (visible ? 1 : 0)};
+  padding: ${({ visible }) => (visible ? "10px" : "0")};
+  height: ${({ visible }) => (visible ? "656px" : "0")};
+  box-shadow: ${({ visible }) => (visible ? "8px 8px 12px 4px black" : "none")};
 `;
 
-const SearchResults = ({ visible }) => (
-  <StyledSearchResults visible={visible} />
-);
+const SearchResults = ({ visible, results, searching }) => {
+  return (
+    <StyledSearchResults visible={visible} className="searchresults">
+      {results.map((result, index) => (
+        <SearchResult
+          name={result.name}
+          image={result.background_image}
+          isLastResult={index === results.length - 1}
+        />
+      ))}
+      <Searching show={searching} />
+      <NoResults show={!searching && results.length === 0} />
+    </StyledSearchResults>
+  );
+};
 
 export default SearchResults;

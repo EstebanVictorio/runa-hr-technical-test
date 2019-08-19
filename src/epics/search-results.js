@@ -1,7 +1,12 @@
+import { of } from "rxjs";
 import { ofType } from "redux-observable";
-import { switchMap } from "rxjs/operators";
 import { fetchSearch } from "services/rawg-io";
-import { FETCH_SEARCH } from "ducks/search-results";
+import { switchMap, mapTo, map } from "rxjs/operators";
+import {
+  FETCH_SEARCH,
+  SET_SEARCH_RESULTS,
+  fetchSearchDone
+} from "ducks/search-results";
 
 const fetchSearchEpic = action$ =>
   action$.pipe(
@@ -9,4 +14,10 @@ const fetchSearchEpic = action$ =>
     switchMap(fetchSearch)
   );
 
-export { fetchSearchEpic };
+const searchDoneEpic = action$ =>
+  action$.pipe(
+    ofType(SET_SEARCH_RESULTS),
+    mapTo(fetchSearchDone())
+  );
+
+export { fetchSearchEpic, searchDoneEpic };
