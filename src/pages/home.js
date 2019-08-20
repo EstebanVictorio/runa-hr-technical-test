@@ -7,8 +7,10 @@ import { fetchSearch, cleanSearchResults } from "ducks/search-results";
 import { fetchFeaturedGames, fetchLatestReleases } from "ducks/overview";
 
 const Home = ({
+  purchasesList,
   results,
   searching,
+  gameToBuy,
   fetchLatest,
   cleanSearch,
   modalBuyOpen,
@@ -17,6 +19,8 @@ const Home = ({
   latestReleases,
   fetchNewSearch
 }) => {
+  console.log("Purchased games:");
+  console.log(purchasesList);
   const loadFeaturesGamesEffect = () => {
     fetchFeatured();
   };
@@ -31,9 +35,9 @@ const Home = ({
     <section className="content-section">
       <Search
         results={results}
-        modalBuyOpen={modalBuyOpen}
         searching={searching}
         cleanSearch={cleanSearch}
+        modalBuyOpen={modalBuyOpen}
         fetchNewSearch={fetchNewSearch}
       />
       <GameList title="Featured Games" list={featuredGames} />
@@ -42,8 +46,10 @@ const Home = ({
   );
 };
 
-const mapStateToProps = ({ overview, searchResults }) => ({
+const mapStateToProps = ({ overview, searchResults, purchases }) => ({
+  gameToBuy: purchases.gameToBuy,
   results: searchResults.results,
+  purchasesList: purchases.list,
   searching: searchResults.searching,
   featuredGames: overview.featuredGamesList,
   latestReleases: overview.latestReleasesList

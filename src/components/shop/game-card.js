@@ -5,6 +5,7 @@ import { modalOpen } from "ducks/modal";
 import Gift from "components/icons/gift";
 import Heart from "components/icons/heart";
 import { useState, useEffect } from "react";
+import { setGameToBuy } from "ducks/purchases";
 import PriceTag from "components/icons/price-tag";
 import CreditCard from "components/icons/credit-card";
 import AddToCart from "components/icons/add-to-cart";
@@ -151,7 +152,14 @@ const StyledGameCard = styled.div`
   }
 `;
 
-const GameCard = ({ id, name, img, modalBuyOpen, purchasesList }) => {
+const GameCard = ({
+  id,
+  name,
+  img,
+  modalBuyOpen,
+  purchasesList,
+  prepareGameToBuy
+}) => {
   const [capturedClick, setCapturedClick] = useState("");
   const [disabledClassName, setDisabledClassName] = useState(
     purchasesList.filter(purchase => purchase.id === id).length === 0
@@ -182,6 +190,7 @@ const GameCard = ({ id, name, img, modalBuyOpen, purchasesList }) => {
     e.preventDefault();
     if (id) {
       if (capturedClick === "buy") {
+        prepareGameToBuy({ id, name, img });
         modalBuyOpen();
       }
     }
@@ -258,7 +267,8 @@ const mapStateToProps = ({ purchases }) => ({
 });
 
 const mapDispatchToProps = {
-  modalBuyOpen: modalOpen
+  modalBuyOpen: modalOpen,
+  prepareGameToBuy: setGameToBuy
 };
 
 export default connect(

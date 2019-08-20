@@ -4,10 +4,12 @@ const FEATURED_GAMES_API_URL =
 const LATEST_RELEASES_API_URL =
   "https://api.rawg.io/api/games/call-of-duty/suggested?page_size=6";
 
-const PAYMENT_URL = "http://localhost:3000/pay";
+const PAYMENT_URL = "http://localhost:3001/pay";
 
 const SVG_ICONS_PATH = "/icons";
 const DEBOUNCE_TIME = 1.5 * 1000;
+
+const PAYMENT_SUCCEEDED = "succeeded";
 
 const OK = 200; // 200 - OK	Everything worked as expected.
 const BAD_REQUEST = 400; // 400 - Bad Request	The request was unacceptable, often due to missing a required parameter.
@@ -39,5 +41,6 @@ export {
   DEBOUNCE_TIME,
   SVG_ICONS_PATH,
   LATEST_RELEASES_API_URL,
-  FEATURED_GAMES_API_URL
+  FEATURED_GAMES_API_URL,
+  PAYMENT_SUCCEEDED
 };

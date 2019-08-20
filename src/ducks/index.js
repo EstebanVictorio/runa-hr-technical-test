@@ -1,6 +1,16 @@
 import { combineEpics } from "redux-observable";
-import { purchases, purchaseEpic } from "./purchases";
-import { modal } from "./modal";
+import {
+  modal,
+  onSuccessfulPurchaseModalCloseEpic,
+  onModalCloseEpic
+} from "./modal";
+import {
+  purchases,
+  purchaseEpic,
+  purchaseFailedEpic,
+  purchaseSucceededEpic,
+  purchaseSucceededCleanEpic
+} from "./purchases";
 import {
   overview,
   fetchFeaturedGamesEpic,
@@ -16,10 +26,15 @@ import {
 const reducers = { overview, searchResults, purchases, modal };
 const epics = combineEpics(
   purchaseEpic,
+  purchaseFailedEpic,
+  purchaseSucceededEpic,
+  purchaseSucceededCleanEpic,
   searchDoneEpic,
   fetchSearchEpic,
   fetchFeaturedGamesEpic,
-  fetchLatestReleasesEpic
+  fetchLatestReleasesEpic,
+  onSuccessfulPurchaseModalCloseEpic,
+  onModalCloseEpic
 );
 
 export { epics, reducers };

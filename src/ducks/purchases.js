@@ -1,23 +1,43 @@
-import { purchaseEpic } from "epics/purchases";
+import {
+  purchaseEpic,
+  purchaseFailedEpic,
+  purchaseSucceededEpic,
+  purchaseSucceededCleanEpic
+} from "epics/purchases";
 
+const PURCHASE_DONE = "PURCHASE_DONE";
 const START_PURCHASE = "START_PURCHASE";
+const SET_GAME_TO_BUY = "SET_GAME_TO_BUY";
 const PURCHASE_FAILED = "PURCHASE_FAILED";
 const SET_PURCHASE_INFO = "SET_PURCHASE_INFO";
 const PURCHASE_SUCCEEDED = "PURCHASE_SUCCEEDED";
+const CLEAR_PURCHASE_INFO = "CLEAR_PURCHASE_INFO";
 
 const initialState = {
   list: [],
+  gameToBuy: {},
+  errorInfo: null,
+  gameBought: null,
   purchasing: false,
-  successful: false,
-  errorInfo: {},
-  gameToBuy: {}
+  successful: false
 };
+
 const purchases = (state = initialState, action) => {
   switch (action.type) {
     case START_PURCHASE:
       return {
         ...state,
         purchasing: true
+      };
+    case PURCHASE_DONE:
+      return {
+        ...state,
+        purchasing: false
+      };
+    case SET_GAME_TO_BUY:
+      return {
+        ...state,
+        gameToBuy: action.payload
       };
     case SET_PURCHASE_INFO:
       return {
@@ -28,33 +48,46 @@ const purchases = (state = initialState, action) => {
       return {
         ...state,
         successful: true,
-        purchasing: false
+        gameBought: action.payload
+      };
+    case CLEAR_PURCHASE_INFO:
+      return {
+        ...state,
+        gameToBuy: {},
+        errorInfo: null,
+        gameBought: null,
+        purchasing: false,
+        successful: false
       };
     case PURCHASE_FAILED:
       return {
         ...state,
         successful: false,
-        purchasing: false,
-        errorInfo: {
-          ...action.payload
-        }
+        errorInfo: action.payload
       };
+
     default:
       return state;
   }
 };
+
+const clearPurchaseInfo = () => ({
+  type: CLEAR_PURCHASE_INFO
+});
 
 const startPurchase = payload => ({
   type: START_PURCHASE,
   payload
 });
 
-const setPurchaseInfo = () => ({
-  type: SET_PURCHASE_INFO
+const setPurchaseInfo = payload => ({
+  type: SET_PURCHASE_INFO,
+  payload
 });
 
-const purchaseSucceeded = () => ({
-  type: PURCHASE_SUCCEEDED
+const purchaseSucceeded = payload => ({
+  type: PURCHASE_SUCCEEDED,
+  payload
 });
 
 const purchaseFailed = payload => ({
@@ -62,14 +95,32 @@ const purchaseFailed = payload => ({
   payload
 });
 
+const purchaseDone = () => ({
+  type: PURCHASE_DONE
+});
+
+const setGameToBuy = payload => ({
+  type: SET_GAME_TO_BUY,
+  payload
+});
+
 export {
+  purchases,
+  PURCHASE_DONE,
   START_PURCHASE,
   PURCHASE_FAILED,
+  SET_GAME_TO_BUY,
   SET_PURCHASE_INFO,
   PURCHASE_SUCCEEDED,
+  purchaseDone,
+  setGameToBuy,
   startPurchase,
   purchaseFailed,
+  setPurchaseInfo,
   purchaseSucceeded,
+  clearPurchaseInfo,
   purchaseEpic,
-  purchases
+  purchaseFailedEpic,
+  purchaseSucceededEpic,
+  purchaseSucceededCleanEpic
 };

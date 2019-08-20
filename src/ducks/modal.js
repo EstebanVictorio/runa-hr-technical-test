@@ -1,3 +1,8 @@
+import {
+  onModalCloseEpic,
+  onSuccessfulPurchaseModalCloseEpic
+} from "epics/modal";
+
 const MODAL_OPEN = "MODAL_OPEN";
 const MODAL_CLOSE = "MODAL_CLOSE";
 
@@ -30,4 +35,12 @@ const modalClose = () => ({
   type: MODAL_CLOSE
 });
 
-export { MODAL_OPEN, MODAL_CLOSE, modal, modalOpen, modalClose };
+export {
+  MODAL_OPEN,
+  MODAL_CLOSE,
+  modal,
+  modalOpen,
+  modalClose,
+  onModalCloseEpic,
+  onSuccessfulPurchaseModalCloseEpic
+};

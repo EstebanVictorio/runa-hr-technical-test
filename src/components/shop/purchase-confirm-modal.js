@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { modalClose } from "ducks/modal";
 import Loader from "react-loader-spinner";
 import Close from "components/icons/close";
+import Check from "components/icons/check";
 import { useState, useEffect } from "react";
 import { startPurchase } from "ducks/purchases";
 import CreditCard from "components/icons/credit-card";
@@ -152,20 +153,33 @@ const StyledPurchaseConfirmModal = styled.div`
 `;
 
 const PurchaseConfirmModal = ({
-  id,
-  img,
   open,
-  name,
+  gameToBuy,
+  errorInfo,
   purchasing,
+  successful,
+  gameBought,
   modalBuyClose,
   startGamePurchase
 }) => {
+  const { id, name, img } = gameToBuy;
+
+  const [successIconClassName, setSuccessIconClassName] = useState(
+    "modal__action-icon--hidden"
+  );
+
+  const [failureIconClassName, setFailureIconClassName] = useState(
+    "modal__action-icon--hidden"
+  );
+
   const [labelOpacityClassName, setLabelOpacityClassName] = useState(
     "modal__action-label"
   );
 
   const [buyIconClassName, setBuyIconClassName] = useState(
-    "modal__action-icon"
+    purchasing && !gameBought && !errorInfo
+      ? "modal__action-icon--hidden"
+      : "modal__action-icon"
   );
   const [loaderClassName, setLoaderClassName] = useState(
     "modal__action-icon--hidden"
@@ -179,8 +193,11 @@ const PurchaseConfirmModal = ({
     "modal__game-img modal__game-img--filtered"
   );
 
-  const handleBuyClick = () => {
-    startGamePurchase();
+  const handleBuySubmit = event => {
+    event.preventDefault();
+    if (!purchasing) {
+      startGamePurchase();
+    }
   };
 
   const setLabelOpacityClassNameEffect = () => {
@@ -193,13 +210,31 @@ const PurchaseConfirmModal = ({
 
   const setBuyIconClassNameEffect = () => {
     setBuyIconClassName(
-      purchasing ? "modal__action-icon--hidden" : "modal__action-icon"
+      purchasing || gameBought || errorInfo
+        ? "modal__action-icon--hidden"
+        : "modal__action-icon"
     );
   };
 
   const setLoaderClassNameEffect = () => {
     setLoaderClassName(
       purchasing ? "modal__action-icon" : "modal__action-icon--hidden"
+    );
+  };
+
+  const setSuccessIconClassNameEffect = () => {
+    setSuccessIconClassName(
+      successful && !purchasing && gameBought
+        ? "modal__action-icon"
+        : "modal__action-icon--hidden"
+    );
+  };
+
+  const setFailureIconClassNameEffect = () => {
+    setSuccessIconClassName(
+      !successful && !purchasing && errorInfo
+        ? "modal__action-icon"
+        : "modal__action-icon--hidden"
     );
   };
 
@@ -213,13 +248,24 @@ const PurchaseConfirmModal = ({
     );
   };
 
-  console.log(`Label class name: ${labelOpacityClassName}`);
   useEffect(setShowModalClassNameEffect, [open]);
   useEffect(setImgFilteredClassNameEffect, [img]);
   useEffect(setLoaderClassNameEffect, [purchasing]);
+  useEffect(setBuyIconClassNameEffect, [purchasing, gameBought, errorInfo]);
   useEffect(setLabelOpacityClassNameEffect, [purchasing]);
-  useEffect(setBuyIconClassNameEffect, [purchasing]);
-
+  useEffect(setFailureIconClassNameEffect, [successful, purchasing, errorInfo]);
+  useEffect(setSuccessIconClassNameEffect, [
+    successful,
+    purchasing,
+    gameBought
+  ]);
+  console.log(`Success:${successful}`);
+  console.log(`Purchasing:${purchasing}`);
+  console.log(`GameBought:`);
+  console.log(gameBought);
+  console.log(`ErrorInfo:`);
+  console.log(errorInfo);
+  console.log("=========================");
   return (
     <StyledOverlay className={showModalClassName}>
       <StyledPurchaseConfirmModal>
@@ -236,8 +282,10 @@ const PurchaseConfirmModal = ({
           />
         </figure>
         <p className="modal__game-title">{name || "..."}</p>
-        <form className="modal__form">
+        <form className="modal__form" onSubmit={handleBuySubmit}>
           <label className={labelOpacityClassName}>
+            <Close classes={failureIconClassName} />
+            <Check classes={successIconClassName} />
             <CreditCard classes={buyIconClassName} />
             <Loader
               width={20}
@@ -246,11 +294,7 @@ const PurchaseConfirmModal = ({
               color="cyan"
               className={loaderClassName}
             />
-            <input
-              className="modal__action"
-              type="button"
-              onClick={handleBuyClick}
-            />
+            <input value="" className="modal__action" type="submit" />
             <p className="modal__action-text">buy</p>
           </label>
         </form>
@@ -262,7 +306,10 @@ const PurchaseConfirmModal = ({
 const mapStateToProps = ({ modal, purchases }) => ({
   open: modal.open,
   gameToBuy: purchases.gameToBuy,
-  purchasing: purchases.purchasing
+  purchasing: purchases.purchasing,
+  successful: purchases.successful,
+  errorInfo: purchases.errorInfo,
+  gameBought: purchases.gameBought
 });
 
 const mapDispatchToProps = {

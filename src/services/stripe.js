@@ -1,5 +1,9 @@
-import { purchaseFailed, purchaseSucceeded } from "ducks/purchases";
-import { PAYMENT_URL } from "utils/constants";
+import { PAYMENT_URL, PAYMENT_SUCCEEDED, OK } from "utils/constants";
+import {
+  purchaseFailed,
+  purchaseSucceeded,
+  setPurchaseInfo
+} from "ducks/purchases";
 
 const purchaseGame = async ({ payload }) => {
   const response = await fetch(PAYMENT_URL, {
@@ -9,8 +13,17 @@ const purchaseGame = async ({ payload }) => {
       "Content-Type": "application/json"
     }
   });
-  const json = await response.json();
-  return purchaseSucceeded();
+  const jsonResponse = await response.json();
+
+  if (response.status !== OK || jsonResponse.status !== PAYMENT_SUCCEEDED) {
+    return purchaseFailed({
+      description: `${OK ? "Payment" : "Request"} failed`
+    });
+  }
+
+  return purchaseSucceeded({ game: jsonResponse.description });
 };
 
-export { purchaseGame };
+const assignPurchaseInfo = async action => setPurchaseInfo(action.payload);
+
+export { purchaseGame, assignPurchaseInfo };
