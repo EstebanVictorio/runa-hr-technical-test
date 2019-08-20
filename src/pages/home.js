@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
+import { modalOpen } from "ducks/modal";
 import Search from "components/shop/search";
 import GameList from "components/shop/game-list";
 import { fetchSearch, cleanSearchResults } from "ducks/search-results";
@@ -10,6 +11,7 @@ const Home = ({
   searching,
   fetchLatest,
   cleanSearch,
+  modalBuyOpen,
   fetchFeatured,
   featuredGames,
   latestReleases,
@@ -29,6 +31,7 @@ const Home = ({
     <section className="content-section">
       <Search
         results={results}
+        modalBuyOpen={modalBuyOpen}
         searching={searching}
         cleanSearch={cleanSearch}
         fetchNewSearch={fetchNewSearch}
@@ -47,6 +50,7 @@ const mapStateToProps = ({ overview, searchResults }) => ({
 });
 
 const mapDispatchToProps = {
+  modalBuyOpen: modalOpen,
   fetchNewSearch: fetchSearch,
   cleanSearch: cleanSearchResults,
   fetchLatest: fetchLatestReleases,

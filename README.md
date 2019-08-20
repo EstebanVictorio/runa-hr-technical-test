@@ -33,3 +33,18 @@ the page reloads.
 
 Furthermore, the next steps for future updates, I'll add the shopping cart list,
 the gifts list and the wish list, but this is out of the current scopes. For now, purchasing a game and showing them is the priority.
+
+## Technical test:
+
+- Ducks ✔️
+- REST API Consuming (RAWG API) ✔️
+- `redux-observable` ✔️
+- React Router ✔️ (although only one page, it renders the appropiate home page
+  components)
+
+## Pending:
+
+- Complete the payment flow
+- Add wishlist
+- Add gifts
+- Add shopping cart

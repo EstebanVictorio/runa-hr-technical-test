@@ -55,7 +55,13 @@ const StyledSearchInputClearButton = styled.input`
   }
 `;
 
-const SearchInput = ({ fetchNewSearch, results, searching, cleanSearch }) => {
+const SearchInput = ({
+  results,
+  searching,
+  cleanSearch,
+  modalBuyOpen,
+  fetchNewSearch
+}) => {
   const [searchValue, setSearchValue] = useState("");
 
   const handleClearSearchValueClick = () => setSearchValue("");
@@ -95,6 +101,7 @@ const SearchInput = ({ fetchNewSearch, results, searching, cleanSearch }) => {
         <SearchResults
           results={results}
           searching={searching}
+          modalBuyOpen={modalBuyOpen}
           visible={searchValue.length > 0}
         />
       </StyledSearchInputContainer>

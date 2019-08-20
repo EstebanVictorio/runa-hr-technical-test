@@ -138,7 +138,12 @@ const StyledSeparator = styled.hr`
   width: 98%;
 `;
 
-const SearchResult = ({ name, image, price, isLastResult }) => {
+const SearchResult = ({ name, image, price, isLastResult, modalBuyOpen }) => {
+  const handleBuySubmit = e => {
+    e.preventDefault();
+    modalBuyOpen();
+  };
+
   return (
     <Fragment>
       <StyledSearchResult>
@@ -146,7 +151,7 @@ const SearchResult = ({ name, image, price, isLastResult }) => {
           <img className="searchresult__img" src={image} />
         </figure>
         <p className="searchresult__title">{name}</p>
-        <form className="searchresult__form">
+        {/* <form className="searchresult__form">
           <label className="searchresult__action-label">
             <input
               type="button"
@@ -173,11 +178,15 @@ const SearchResult = ({ name, image, price, isLastResult }) => {
               </figure>
             </div>
           </label>
-        </form>
-        <form className="searchresult__purchase-form">
+        </form> */}
+        <form
+          className="searchresult__purchase-form"
+          onSubmit={handleBuySubmit}
+        >
           <label className="searchresult__action-label searchresult__action-label--squared">
             <input
-              type="button"
+              value=""
+              type="submit"
               className="searchresult__action searchresult__action--squared"
             />
             <div className="searchresult__action-content">

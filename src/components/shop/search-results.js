@@ -21,12 +21,14 @@ const StyledSearchResults = styled.div`
   box-shadow: ${({ visible }) => (visible ? "8px 8px 12px 4px black" : "none")};
 `;
 
-const SearchResults = ({ visible, results, searching }) => {
+const SearchResults = ({ visible, results, searching, modalBuyOpen }) => {
   return (
     <StyledSearchResults visible={visible} className="searchresults">
       {results.map((result, index) => (
         <SearchResult
+          key={`searchresult-${index}`}
           name={result.name}
+          modalBuyOpen={modalBuyOpen}
           image={result.background_image}
           isLastResult={index === results.length - 1}
         />

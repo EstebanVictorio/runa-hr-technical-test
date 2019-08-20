@@ -25,8 +25,8 @@ const GameList = ({ list, title }) => (
   <StyledGameListContainer>
     <h2 className="gamelist__title">{title}</h2>
     <StyledGameList>
-      {list.map(game => (
-        <li>
+      {list.map((game, index) => (
+        <li key={`game-${game.id ? game.id : index}`}>
           <GameCard id={game.id} name={game.name} img={game.background_image} />
         </li>
       ))}

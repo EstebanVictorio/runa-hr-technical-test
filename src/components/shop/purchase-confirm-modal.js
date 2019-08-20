@@ -4,6 +4,7 @@ import { modalClose } from "ducks/modal";
 import Loader from "react-loader-spinner";
 import Close from "components/icons/close";
 import { useState, useEffect } from "react";
+import { startPurchase } from "ducks/purchases";
 import CreditCard from "components/icons/credit-card";
 
 const StyledOverlay = styled.div`
@@ -30,10 +31,10 @@ const StyledPurchaseConfirmModal = styled.div`
   height: 400px;
   display: flex;
   border-radius: 2px;
+  position: absolute;
   align-items: center;
   flex-direction: column;
   box-sizing: border-box;
-  position: absolute;
   background-color: darkslategray;
   box-shadow: 5px 5px 15px 5px black;
 
@@ -94,17 +95,25 @@ const StyledPurchaseConfirmModal = styled.div`
     justify-content: center;
   }
 
-  .modal__action-label--loading {
-    opacity: 0.5;
-  }
-
   .modal__action-label:hover {
     background-color: cyan;
+  }
+
+  .modal__action-label--loading,
+  .modal__action-label--loading:hover {
+    opacity: 0.5;
+    filter: invert(0);
+    background-color: transparent;
   }
 
   .modal__action-label:hover svg,
   .modal__action-label:hover .modal__action-text {
     filter: invert(1);
+  }
+
+  .modal__action-label--loading:hover svg,
+  .modal__action-label--loading:hover .modal__action-text {
+    filter: invert(0);
   }
 
   .modal__action {
@@ -124,6 +133,10 @@ const StyledPurchaseConfirmModal = styled.div`
     cursor: pointer;
   }
 
+  .modal__action-icon--hidden {
+    display: none;
+  }
+
   .modal__action-icon svg {
     width: 20px;
     height: 20px;
@@ -140,12 +153,24 @@ const StyledPurchaseConfirmModal = styled.div`
 
 const PurchaseConfirmModal = ({
   id,
-  name,
   img,
   open,
+  name,
   purchasing,
-  modalBuyClose
+  modalBuyClose,
+  startGamePurchase
 }) => {
+  const [labelOpacityClassName, setLabelOpacityClassName] = useState(
+    "modal__action-label"
+  );
+
+  const [buyIconClassName, setBuyIconClassName] = useState(
+    "modal__action-icon"
+  );
+  const [loaderClassName, setLoaderClassName] = useState(
+    "modal__action-icon--hidden"
+  );
+
   const [showModalClassName, setShowModalClassName] = useState(
     open ? "show" : "hidden"
   );
@@ -153,6 +178,30 @@ const PurchaseConfirmModal = ({
   const [imgFilteredClassName, setImgFilteredClassName] = useState(
     "modal__game-img modal__game-img--filtered"
   );
+
+  const handleBuyClick = () => {
+    startGamePurchase();
+  };
+
+  const setLabelOpacityClassNameEffect = () => {
+    setLabelOpacityClassName(
+      purchasing
+        ? "modal__action-label modal__action-label--loading"
+        : "modal__action-label"
+    );
+  };
+
+  const setBuyIconClassNameEffect = () => {
+    setBuyIconClassName(
+      purchasing ? "modal__action-icon--hidden" : "modal__action-icon"
+    );
+  };
+
+  const setLoaderClassNameEffect = () => {
+    setLoaderClassName(
+      purchasing ? "modal__action-icon" : "modal__action-icon--hidden"
+    );
+  };
 
   const setShowModalClassNameEffect = () => {
     setShowModalClassName(open ? "show" : "hidden");
@@ -164,8 +213,12 @@ const PurchaseConfirmModal = ({
     );
   };
 
-  useEffect(setImgFilteredClassNameEffect, [img]);
+  console.log(`Label class name: ${labelOpacityClassName}`);
   useEffect(setShowModalClassNameEffect, [open]);
+  useEffect(setImgFilteredClassNameEffect, [img]);
+  useEffect(setLoaderClassNameEffect, [purchasing]);
+  useEffect(setLabelOpacityClassNameEffect, [purchasing]);
+  useEffect(setBuyIconClassNameEffect, [purchasing]);
 
   return (
     <StyledOverlay className={showModalClassName}>
@@ -184,10 +237,20 @@ const PurchaseConfirmModal = ({
         </figure>
         <p className="modal__game-title">{name || "..."}</p>
         <form className="modal__form">
-          <label className="modal__action-label">
-            <CreditCard classes="modal__action-icon" />
-            {/* <Loader type="Oval" color="cyan" width={20} height={20} /> */}
-            <input className="modal__action" type="button" />
+          <label className={labelOpacityClassName}>
+            <CreditCard classes={buyIconClassName} />
+            <Loader
+              width={20}
+              type="Oval"
+              height={20}
+              color="cyan"
+              className={loaderClassName}
+            />
+            <input
+              className="modal__action"
+              type="button"
+              onClick={handleBuyClick}
+            />
             <p className="modal__action-text">buy</p>
           </label>
         </form>
@@ -203,7 +266,8 @@ const mapStateToProps = ({ modal, purchases }) => ({
 });
 
 const mapDispatchToProps = {
-  modalBuyClose: modalClose
+  modalBuyClose: modalClose,
+  startGamePurchase: startPurchase
 };
 
 export default connect(
