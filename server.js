@@ -1,10 +1,21 @@
 const dotenv = require("dotenv");
-const express = require("express");
-const Webpack = require("webpack");
-const DevServer = require("webpack-dev-server");
 const config = require("./webpack.config");
+const Webpack = require("webpack");
 const compiler = Webpack(config);
+const express = require("express");
+const bodyParser = require("body-parser");
 const fetch = require("isomorphic-fetch");
+const DevServer = require("webpack-dev-server");
+const stripeInit = require("stripe");
+const stripeUtils = require("./stripe-utils");
+dotenv.config();
+let stripe = null;
+
+const stripeServerInit = () => {
+  const key = process.env.KEY;
+  console.log(`Using Stripe Test key: ${key}`);
+  stripe = stripeInit(process.env.KEY);
+};
 
 const devServerOptions = Object.assign({}, config.devServer, {
   open: true,
@@ -19,20 +30,6 @@ dotenv.config();
 const port = process.env.SERVER_PORT || 3001;
 const devServerPort = process.env.PORT || 3000;
 const app = express();
-const key = process.env.KEY;
-const options = {
-  headers: {
-    "Ocp-Apim-Subscription-Key": key,
-    "Accept-Language": "en",
-    Host: "www.haloapi.com"
-  }
-};
-
-const lotrOptions = {
-  headers: {
-    Authorization: `Bearer ${key}`
-  }
-};
 
 const enableCORS = (req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "*");
@@ -42,42 +39,23 @@ const enableCORS = (req, res, next) => {
 };
 
 app.use(enableCORS);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/characters", async (req, res) => {
-  const response = await fetch(
-    " https://the-one-api.herokuapp.com/v1/character",
-    lotrOptions
-  );
-  const data = await response.json();
-  res.json({
-    data
+app.post("/pay", async (req, res) => {
+  const paymentInfo = req.body;
+  const stripeJSON = await stripe.charges.create({
+    amount: 5999,
+    currency: "usd",
+    source: process.env.TOKEN,
+    description: paymentInfo.name || "Game"
   });
-});
 
-app.get("/weapons", async (req, res) => {
-  const response = await fetch(
-    "https://www.haloapi.com/metadata/h5/metadata/weapons",
-    options
-  );
-  const data = await response.json();
-  res.json({
-    data
-  });
-});
-
-app.get("/enemies", async (req, res) => {
-  const response = await fetch(
-    "https://www.haloapi.com/metadata/h5/metadata/enemies",
-    options
-  );
-  const data = await response.json();
-  res.json({
-    data
-  });
+  res.json(stripeJSON);
 });
 
 (async () => {
-  await app.listen(port);
+  await app.listen(port, stripeServerInit);
   await webpackDevServer.listen(devServerPort);
   console.log(`Server listening on port: ${port}`);
   console.log(`Webpack Dev Server listening on port: ${port}`);

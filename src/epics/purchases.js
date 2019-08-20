@@ -1,17 +1,28 @@
 import { ofType } from "redux-observable";
-import { START_PURCHASE, PURCHASE_DONE } from "ducks/purchases";
 import { switchMap } from "rxjs/operators";
+import { purchaseGame } from "services/stripe";
+import {
+  START_PURCHASE,
+  PURCHASE_FAILED,
+  PURCHASE_SUCCEEDED
+} from "ducks/purchases";
 
-const startPurchaseEpic = action$ =>
+const purchaseEpic = action$ =>
   action$.pipe(
     ofType(START_PURCHASE),
-    switchMap()
+    switchMap(purchaseGame)
   );
 
-const purchaseDoneEpic = action$ =>
+const purchaseFailedEpic = action$ =>
   action$.pipe(
-    ofType(PURCHASE_DONE),
+    ofType(PURCHASE_FAILED),
     switchMap()
   );
 
-export { startPurchaseEpic };
+const purchaseSucceededEpic = action$ =>
+  action$.pipe(
+    ofType(PURCHASE_SUCCEEDED),
+    switchMap()
+  );
+
+export { purchaseEpic };

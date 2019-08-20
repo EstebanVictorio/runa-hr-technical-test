@@ -9,8 +9,8 @@ const FETCH_FEATURED_GAMES = "FETCH_FEATURED_GAMES";
 const FETCH_LATEST_RELEASES = "FETCH_LATEST_RELEASES";
 
 const initialState = {
-  featuredGamesList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  latestReleasesList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+  featuredGamesList: [{}, {}, {}, {}, {}, {}],
+  latestReleasesList: [{}, {}, {}, {}, {}, {}]
 };
 
 const overview = (state = initialState, action) => {

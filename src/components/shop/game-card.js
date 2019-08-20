@@ -1,10 +1,13 @@
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import styled from "styled-components";
+import { modalOpen } from "ducks/modal";
 import Gift from "components/icons/gift";
 import Heart from "components/icons/heart";
 import { useState, useEffect } from "react";
 import PriceTag from "components/icons/price-tag";
 import CreditCard from "components/icons/credit-card";
+import AddToCart from "components/icons/add-to-cart";
 
 const StyledGameCard = styled.div`
   width: 280px;
@@ -13,7 +16,7 @@ const StyledGameCard = styled.div`
   box-sizing: border-box;
   transition: transform 0.2s;
   border: 1px solid transparent;
-  box-shadow: 12px 12px 20px 1px black;
+  box-shadow: 4px 4px 12px 1px black;
 
   &:hover {
     transform: scale(1.05);
@@ -119,8 +122,17 @@ const StyledGameCard = styled.div`
     width: 48px;
     height: 48px;
     outline: none;
+    cursor: pointer;
     border-radius: 100%;
     border: 1px solid gray;
+    background-color: transparent;
+  }
+
+  .card__form-label--disabled {
+    opacity: 0.5;
+  }
+
+  .card__form-label--disabled:hover {
     background-color: transparent;
   }
 
@@ -139,7 +151,14 @@ const StyledGameCard = styled.div`
   }
 `;
 
-const GameCard = ({ id, name, img }) => {
+const GameCard = ({ id, name, img, modalBuyOpen, purchasesList }) => {
+  const [capturedClick, setCapturedClick] = useState("");
+  const [disabledClassName, setDisabledClassName] = useState(
+    purchasesList.filter(purchase => purchase.id === id).length === 0
+      ? "card__form-label"
+      : "card__form-label card__form-label--disabled"
+  );
+
   const [filteredImgClassName, setFilteredImgClassName] = useState(
     "card__img card__img--filtered"
   );
@@ -150,8 +169,27 @@ const GameCard = ({ id, name, img }) => {
     );
   };
 
+  const setDisabledClassNameEffect = () => {
+    setDisabledClassName(
+      purchasesList.filter(purchase => purchase.id === id).length === 0
+        ? "card__form-label"
+        : "card__form-label card__form-label--disabled"
+    );
+  };
+
+  const handleClickCapture = e => setCapturedClick(e.target.name);
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (id) {
+      if (capturedClick === "buy") {
+        modalBuyOpen();
+      }
+    }
+  };
+
+  useEffect(setDisabledClassName, [purchasesList]);
   useEffect(setFilteredImgClassNameEffect, [img]);
-  console.log(filteredImgClassName);
+
   return (
     <StyledGameCard>
       <figure className="card__img-container">
@@ -168,23 +206,62 @@ const GameCard = ({ id, name, img }) => {
           </figure>
           <p className="card__price-tag">{name ? 59.99 : "---"}</p>
         </div>
-        <form className="card__form">
+        <form className="card__form" onSubmit={handleSubmit}>
+          {/* <label className="card__form-label">
+            <input
+              value=""
+              type="submit"
+              name="add-to-cart"
+              className="card__form-action"
+              onClickCapture={handleClickCapture}
+            />
+            <AddToCart classes="card__plain-icon" />
+          </label> */}
           <label className="card__form-label">
-            <input className="card__form-action" type="button" />
+            <input
+              value=""
+              type="submit"
+              name="buy"
+              className="card__form-action"
+              onClickCapture={handleClickCapture}
+            />
             <CreditCard classes="card__plain-icon" />
           </label>
-          <label className="card__form-label">
-            <input className="card__form-action" type="button" />
+          {/* <label className="card__form-label">
+            <input
+              value=""
+              type="submit"
+              name="wish"
+              className="card__form-action"
+              onClickCapture={handleClickCapture}
+            />
             <Heart classes="card__plain-icon" />
-          </label>
-          <label className="card__form-label">
-            <input className="card__form-action" type="button" />
+          </label> */}
+          {/* <label className="card__form-label">
+            <input
+              value=""
+              name="gift"
+              type="submit"
+              className="card__form-action"
+              onClickCapture={handleClickCapture}
+            />
             <Gift classes="card__plain-icon" />
-          </label>
+          </label> */}
         </form>
       </div>
     </StyledGameCard>
   );
 };
 
-export default GameCard;
+const mapStateToProps = ({ purchases }) => ({
+  purchasesList: purchases.list
+});
+
+const mapDispatchToProps = {
+  modalBuyOpen: modalOpen
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GameCard);

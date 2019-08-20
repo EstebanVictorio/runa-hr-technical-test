@@ -5,6 +5,7 @@
     "dev": "node server.js"
   },
   "dependencies": {
+    "body-parser": "1.19.0",
     "dotenv": "8.0.0",
     "express": "4.17.1",
     "isomorphic-fetch": "2.2.1",
@@ -21,6 +22,7 @@
     "redux": "4.0.4",
     "redux-observable": "1.1.0",
     "rxjs": "6.5.2",
+    "stripe": "7.8.0",
     "styled-components": "4.3.2"
   },
   "devDependencies": {

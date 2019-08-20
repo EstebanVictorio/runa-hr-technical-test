@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Gift from "components/icons/gift";
-import ShoppingCart from "components/icons/shopping-cart";
 import Heart from "components/icons/heart";
+import Purchase from "components/icons/purchase";
+import ShoppingCart from "components/icons/shopping-cart";
 
 const StyledNavigationBar = styled.nav`
   top: 0;
@@ -12,6 +13,7 @@ const StyledNavigationBar = styled.nav`
   position: sticky;
   box-sizing: border-box;
   background-color: darkslategray;
+  box-shadow: 2px 2px 20px 5px black;
 
   .navbar__brand-heading {
     margin: 0;
@@ -49,21 +51,26 @@ const NavigationBar = () => (
       <h1 className="navbar__brand-heading">RSC</h1>
     </Link>
     <ul className="navbar__list">
-      <li className="navbar__list-item">
+      {/* <li className="navbar__list-item">
         <Link className="navbar__link" to="/">
           <ShoppingCart />
         </Link>
-      </li>
-      <li className="navbar__list-item">
+      </li> */}
+      {/* <li className="navbar__list-item">
         <Link className="navbar__link" to="/">
           <Gift />
         </Link>
-      </li>
+      </li> */}
       <li className="navbar__list-item">
+        <Link className="navbar__link" to="/">
+          <Purchase />
+        </Link>
+      </li>
+      {/* <li className="navbar__list-item">
         <Link className="navbar__link" to="/">
           <Heart />
         </Link>
-      </li>
+      </li> */}
     </ul>
   </StyledNavigationBar>
 );
