@@ -29,4 +29,7 @@ and simulate a charge/payment on the Stripe platform with the info in there.
 
 The objective is to show two lists of games, to be able to search games and
 finally, purchase them, storing purchases in the Redux Store locally, until
-the page reloads.s
+the page reloads.
+
+Furthermore, the next steps for future updates, I'll add the shopping cart list,
+the gifts list and the wish list, but this is out of the current scopes. For now, purchasing a game and showing them is the priority.
