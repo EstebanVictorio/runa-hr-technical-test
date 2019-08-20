@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Gift from "components/icons/gift";
 import Heart from "components/icons/heart";
 import Purchase from "components/icons/purchase";
+import PoweredByStripe from "components/icons/powered-by-stripe";
 import ShoppingCart from "components/icons/shopping-cart";
 
 const StyledNavigationBar = styled.nav`
@@ -11,6 +12,7 @@ const StyledNavigationBar = styled.nav`
   display: flex;
   height: 100px;
   position: sticky;
+  align-items: center;
   box-sizing: border-box;
   background-color: darkslategray;
   box-shadow: 2px 2px 20px 5px black;
@@ -43,6 +45,11 @@ const StyledNavigationBar = styled.nav`
   .navbar__link {
     color: white;
   }
+
+  .stripe-icon {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const NavigationBar = () => (
@@ -50,6 +57,7 @@ const NavigationBar = () => (
     <Link className="navbar__link" to="/">
       <h1 className="navbar__brand-heading">RSC</h1>
     </Link>
+    <PoweredByStripe classes="stripe-icon" />
     <ul className="navbar__list">
       {/* <li className="navbar__list-item">
         <Link className="navbar__link" to="/">
